@@ -11,13 +11,54 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional } from "class-validator";
+import { CategoryUpdateManyWithoutUsersInput } from "./CategoryUpdateManyWithoutUsersInput";
+import { ValidateNested, IsOptional, IsString } from "class-validator";
+import { Type } from "class-transformer";
+import { CompanyUpdateManyWithoutUsersInput } from "./CompanyUpdateManyWithoutUsersInput";
+import { FactureUpdateManyWithoutUsersInput } from "./FactureUpdateManyWithoutUsersInput";
+import { ProductUpdateManyWithoutUsersInput } from "./ProductUpdateManyWithoutUsersInput";
 import { IsJSONValue } from "../../validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
 
 @InputType()
 class UserUpdateInput {
+  @ApiProperty({
+    required: false,
+    type: () => CategoryUpdateManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => CategoryUpdateManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => CategoryUpdateManyWithoutUsersInput, {
+    nullable: true,
+  })
+  category?: CategoryUpdateManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => CompanyUpdateManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => CompanyUpdateManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => CompanyUpdateManyWithoutUsersInput, {
+    nullable: true,
+  })
+  company?: CompanyUpdateManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => FactureUpdateManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => FactureUpdateManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => FactureUpdateManyWithoutUsersInput, {
+    nullable: true,
+  })
+  factures?: FactureUpdateManyWithoutUsersInput;
+
   @ApiProperty({
     required: false,
     type: String,
@@ -50,6 +91,18 @@ class UserUpdateInput {
     nullable: true,
   })
   password?: string;
+
+  @ApiProperty({
+    required: false,
+    type: () => ProductUpdateManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => ProductUpdateManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => ProductUpdateManyWithoutUsersInput, {
+    nullable: true,
+  })
+  product?: ProductUpdateManyWithoutUsersInput;
 
   @ApiProperty({
     required: false,

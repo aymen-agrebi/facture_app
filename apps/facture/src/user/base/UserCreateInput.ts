@@ -11,13 +11,54 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional } from "class-validator";
+import { CategoryCreateNestedManyWithoutUsersInput } from "./CategoryCreateNestedManyWithoutUsersInput";
+import { ValidateNested, IsOptional, IsString } from "class-validator";
+import { Type } from "class-transformer";
+import { CompanyCreateNestedManyWithoutUsersInput } from "./CompanyCreateNestedManyWithoutUsersInput";
+import { FactureCreateNestedManyWithoutUsersInput } from "./FactureCreateNestedManyWithoutUsersInput";
+import { ProductCreateNestedManyWithoutUsersInput } from "./ProductCreateNestedManyWithoutUsersInput";
 import { IsJSONValue } from "../../validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
 
 @InputType()
 class UserCreateInput {
+  @ApiProperty({
+    required: false,
+    type: () => CategoryCreateNestedManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => CategoryCreateNestedManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => CategoryCreateNestedManyWithoutUsersInput, {
+    nullable: true,
+  })
+  category?: CategoryCreateNestedManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => CompanyCreateNestedManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => CompanyCreateNestedManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => CompanyCreateNestedManyWithoutUsersInput, {
+    nullable: true,
+  })
+  company?: CompanyCreateNestedManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => FactureCreateNestedManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => FactureCreateNestedManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => FactureCreateNestedManyWithoutUsersInput, {
+    nullable: true,
+  })
+  factures?: FactureCreateNestedManyWithoutUsersInput;
+
   @ApiProperty({
     required: false,
     type: String,
@@ -47,6 +88,18 @@ class UserCreateInput {
   @IsString()
   @Field(() => String)
   password!: string;
+
+  @ApiProperty({
+    required: false,
+    type: () => ProductCreateNestedManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => ProductCreateNestedManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => ProductCreateNestedManyWithoutUsersInput, {
+    nullable: true,
+  })
+  product?: ProductCreateNestedManyWithoutUsersInput;
 
   @ApiProperty({
     required: true,

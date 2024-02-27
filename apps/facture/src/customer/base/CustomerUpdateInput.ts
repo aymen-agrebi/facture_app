@@ -14,7 +14,6 @@ import { ApiProperty } from "@nestjs/swagger";
 import { AddressWhereUniqueInput } from "../../address/base/AddressWhereUniqueInput";
 import { ValidateNested, IsOptional, IsString } from "class-validator";
 import { Type } from "class-transformer";
-import { OrderUpdateManyWithoutCustomersInput } from "./OrderUpdateManyWithoutCustomersInput";
 
 @InputType()
 class CustomerUpdateInput {
@@ -62,18 +61,6 @@ class CustomerUpdateInput {
     nullable: true,
   })
   lastName?: string | null;
-
-  @ApiProperty({
-    required: false,
-    type: () => OrderUpdateManyWithoutCustomersInput,
-  })
-  @ValidateNested()
-  @Type(() => OrderUpdateManyWithoutCustomersInput)
-  @IsOptional()
-  @Field(() => OrderUpdateManyWithoutCustomersInput, {
-    nullable: true,
-  })
-  orders?: OrderUpdateManyWithoutCustomersInput;
 
   @ApiProperty({
     required: false,

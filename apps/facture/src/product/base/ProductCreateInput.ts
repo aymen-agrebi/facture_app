@@ -11,17 +11,31 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
+import { CategoryCreateNestedManyWithoutProductsInput } from "./CategoryCreateNestedManyWithoutProductsInput";
 import {
-  IsString,
-  IsOptional,
-  IsNumber,
   ValidateNested,
+  IsOptional,
+  IsString,
+  IsNumber,
 } from "class-validator";
-import { OrderCreateNestedManyWithoutProductsInput } from "./OrderCreateNestedManyWithoutProductsInput";
 import { Type } from "class-transformer";
+import { FactureCreateNestedManyWithoutProductsInput } from "./FactureCreateNestedManyWithoutProductsInput";
+import { UserCreateNestedManyWithoutProductsInput } from "./UserCreateNestedManyWithoutProductsInput";
 
 @InputType()
 class ProductCreateInput {
+  @ApiProperty({
+    required: false,
+    type: () => CategoryCreateNestedManyWithoutProductsInput,
+  })
+  @ValidateNested()
+  @Type(() => CategoryCreateNestedManyWithoutProductsInput)
+  @IsOptional()
+  @Field(() => CategoryCreateNestedManyWithoutProductsInput, {
+    nullable: true,
+  })
+  categories?: CategoryCreateNestedManyWithoutProductsInput;
+
   @ApiProperty({
     required: false,
     type: String,
@@ -57,15 +71,27 @@ class ProductCreateInput {
 
   @ApiProperty({
     required: false,
-    type: () => OrderCreateNestedManyWithoutProductsInput,
+    type: () => FactureCreateNestedManyWithoutProductsInput,
   })
   @ValidateNested()
-  @Type(() => OrderCreateNestedManyWithoutProductsInput)
+  @Type(() => FactureCreateNestedManyWithoutProductsInput)
   @IsOptional()
-  @Field(() => OrderCreateNestedManyWithoutProductsInput, {
+  @Field(() => FactureCreateNestedManyWithoutProductsInput, {
     nullable: true,
   })
-  orders?: OrderCreateNestedManyWithoutProductsInput;
+  orders?: FactureCreateNestedManyWithoutProductsInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => UserCreateNestedManyWithoutProductsInput,
+  })
+  @ValidateNested()
+  @Type(() => UserCreateNestedManyWithoutProductsInput)
+  @IsOptional()
+  @Field(() => UserCreateNestedManyWithoutProductsInput, {
+    nullable: true,
+  })
+  users?: UserCreateNestedManyWithoutProductsInput;
 }
 
 export { ProductCreateInput as ProductCreateInput };

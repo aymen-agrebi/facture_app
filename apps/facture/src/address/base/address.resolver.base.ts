@@ -26,6 +26,8 @@ import { AddressFindUniqueArgs } from "./AddressFindUniqueArgs";
 import { CreateAddressArgs } from "./CreateAddressArgs";
 import { UpdateAddressArgs } from "./UpdateAddressArgs";
 import { DeleteAddressArgs } from "./DeleteAddressArgs";
+import { CompanyFindManyArgs } from "../../company/base/CompanyFindManyArgs";
+import { Company } from "../../company/base/Company";
 import { CustomerFindManyArgs } from "../../customer/base/CustomerFindManyArgs";
 import { Customer } from "../../customer/base/Customer";
 import { AddressService } from "../address.service";
@@ -142,6 +144,26 @@ export class AddressResolverBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [Company], { name: "companies" })
+  @nestAccessControl.UseRoles({
+    resource: "Company",
+    action: "read",
+    possession: "any",
+  })
+  async findCompanies(
+    @graphql.Parent() parent: Address,
+    @graphql.Args() args: CompanyFindManyArgs
+  ): Promise<Company[]> {
+    const results = await this.service.findCompanies(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)

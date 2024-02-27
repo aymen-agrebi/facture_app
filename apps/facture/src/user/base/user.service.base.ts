@@ -10,7 +10,16 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
-import { Prisma, User } from "@prisma/client";
+
+import {
+  Prisma,
+  User, // @ts-ignore
+  Category, // @ts-ignore
+  Company, // @ts-ignore
+  Facture, // @ts-ignore
+  Product,
+} from "@prisma/client";
+
 import { PasswordService } from "../../auth/password.service";
 import { transformStringFieldUpdateInput } from "../../prisma.util";
 
@@ -70,5 +79,49 @@ export class UserServiceBase {
     args: Prisma.SelectSubset<T, Prisma.UserDeleteArgs>
   ): Promise<User> {
     return this.prisma.user.delete(args);
+  }
+
+  async findCategory(
+    parentId: string,
+    args: Prisma.CategoryFindManyArgs
+  ): Promise<Category[]> {
+    return this.prisma.user
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .category(args);
+  }
+
+  async findCompany(
+    parentId: string,
+    args: Prisma.CompanyFindManyArgs
+  ): Promise<Company[]> {
+    return this.prisma.user
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .company(args);
+  }
+
+  async findFactures(
+    parentId: string,
+    args: Prisma.FactureFindManyArgs
+  ): Promise<Facture[]> {
+    return this.prisma.user
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .factures(args);
+  }
+
+  async findProduct(
+    parentId: string,
+    args: Prisma.ProductFindManyArgs
+  ): Promise<Product[]> {
+    return this.prisma.user
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .product(args);
   }
 }

@@ -11,18 +11,29 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
+import { Category } from "../../category/base/Category";
 import {
+  ValidateNested,
+  IsOptional,
   IsDate,
   IsString,
-  IsOptional,
   IsNumber,
-  ValidateNested,
 } from "class-validator";
 import { Type } from "class-transformer";
-import { Order } from "../../order/base/Order";
+import { Facture } from "../../facture/base/Facture";
+import { User } from "../../user/base/User";
 
 @ObjectType()
 class Product {
+  @ApiProperty({
+    required: false,
+    type: () => [Category],
+  })
+  @ValidateNested()
+  @Type(() => Category)
+  @IsOptional()
+  categories?: Array<Category>;
+
   @ApiProperty({
     required: true,
   })
@@ -74,12 +85,12 @@ class Product {
 
   @ApiProperty({
     required: false,
-    type: () => [Order],
+    type: () => [Facture],
   })
   @ValidateNested()
-  @Type(() => Order)
+  @Type(() => Facture)
   @IsOptional()
-  orders?: Array<Order>;
+  orders?: Array<Facture>;
 
   @ApiProperty({
     required: true,
@@ -88,6 +99,15 @@ class Product {
   @Type(() => Date)
   @Field(() => Date)
   updatedAt!: Date;
+
+  @ApiProperty({
+    required: false,
+    type: () => [User],
+  })
+  @ValidateNested()
+  @Type(() => User)
+  @IsOptional()
+  users?: Array<User>;
 }
 
 export { Product as Product };

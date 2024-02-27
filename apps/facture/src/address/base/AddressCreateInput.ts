@@ -12,8 +12,9 @@ https://docs.amplication.com/how-to/custom-code
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString, IsOptional, ValidateNested, IsInt } from "class-validator";
-import { CustomerCreateNestedManyWithoutAddressesInput } from "./CustomerCreateNestedManyWithoutAddressesInput";
+import { CompanyCreateNestedManyWithoutAddressesInput } from "./CompanyCreateNestedManyWithoutAddressesInput";
 import { Type } from "class-transformer";
+import { CustomerCreateNestedManyWithoutAddressesInput } from "./CustomerCreateNestedManyWithoutAddressesInput";
 
 @InputType()
 class AddressCreateInput {
@@ -49,6 +50,18 @@ class AddressCreateInput {
     nullable: true,
   })
   city?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => CompanyCreateNestedManyWithoutAddressesInput,
+  })
+  @ValidateNested()
+  @Type(() => CompanyCreateNestedManyWithoutAddressesInput)
+  @IsOptional()
+  @Field(() => CompanyCreateNestedManyWithoutAddressesInput, {
+    nullable: true,
+  })
+  companies?: CompanyCreateNestedManyWithoutAddressesInput;
 
   @ApiProperty({
     required: false,

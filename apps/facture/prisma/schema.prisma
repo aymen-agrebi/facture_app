@@ -8,27 +8,33 @@ generator client {
 }
 
 model User {
-  createdAt DateTime @default(now())
+  category  Category[]
+  company   Company[]
+  createdAt DateTime   @default(now())
+  factures  Facture[]
   firstName String?
-  id        String   @id @default(cuid())
+  id        String     @id @default(cuid())
   lastName  String?
   password  String
+  product   Product[]
   roles     Json
-  updatedAt DateTime @updatedAt
-  username  String   @unique
+  updatedAt DateTime   @updatedAt
+  username  String     @unique
 }
 
-model Order {
-  createdAt  DateTime  @default(now())
-  customer   Customer? @relation(fields: [customerId], references: [id])
-  customerId String?
-  discount   Float?
-  id         String    @id @default(cuid())
-  product    Product?  @relation(fields: [productId], references: [id])
-  productId  String?
-  quantity   Int?
-  totalPrice Int?
-  updatedAt  DateTime  @updatedAt
+model Facture {
+  companies   Company?  @relation(fields: [companiesId], references: [id])
+  companiesId String?
+  createdAt   DateTime  @default(now())
+  discount    Float?
+  id          String    @id @default(cuid())
+  product     Product[]
+  quantity    Int?
+  totalPrice  Int?
+  tva         String?
+  updatedAt   DateTime  @updatedAt
+  users       User?     @relation(fields: [usersId], references: [id])
+  usersId     String?
 }
 
 model Customer {
@@ -39,7 +45,6 @@ model Customer {
   firstName String?
   id        String   @id @default(cuid())
   lastName  String?
-  orders    Order[]
   phone     String?
   updatedAt DateTime @updatedAt
 }
@@ -48,6 +53,7 @@ model Address {
   address_1 String?
   address_2 String?
   city      String?
+  companies Company[]
   createdAt DateTime   @default(now())
   customers Customer[]
   id        String     @id @default(cuid())
@@ -57,11 +63,38 @@ model Address {
 }
 
 model Product {
-  createdAt   DateTime @default(now())
+  categories  Category[]
+  createdAt   DateTime   @default(now())
   description String?
-  id          String   @id @default(cuid())
+  id          String     @id @default(cuid())
   itemPrice   Float?
   name        String?
-  orders      Order[]
-  updatedAt   DateTime @updatedAt
+  orders      Facture[]
+  updatedAt   DateTime   @updatedAt
+  users       User[]
+}
+
+model Category {
+  createdAt DateTime  @default(now())
+  id        String    @id @default(cuid())
+  name      String?
+  product   Product[]
+  updatedAt DateTime  @updatedAt
+  users     User[]
+}
+
+model Company {
+  address       Address?  @relation(fields: [addressId], references: [id])
+  addressId     String?
+  createdAt     DateTime  @default(now())
+  facture       Facture[]
+  id            String    @id @default(cuid())
+  logo          String?
+  name          String?
+  raisonSociale String?
+  rib           String?
+  stamp         String?
+  updatedAt     DateTime  @updatedAt
+  users         User?     @relation(fields: [usersId], references: [id])
+  usersId       String?
 }

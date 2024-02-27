@@ -11,15 +11,29 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { CategoryListRelationFilter } from "../../category/base/CategoryListRelationFilter";
+import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
-import { IsOptional, ValidateNested } from "class-validator";
+import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
 import { FloatNullableFilter } from "../../util/FloatNullableFilter";
-import { OrderListRelationFilter } from "../../order/base/OrderListRelationFilter";
+import { FactureListRelationFilter } from "../../facture/base/FactureListRelationFilter";
+import { UserListRelationFilter } from "../../user/base/UserListRelationFilter";
 
 @InputType()
 class ProductWhereInput {
+  @ApiProperty({
+    required: false,
+    type: () => CategoryListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => CategoryListRelationFilter)
+  @IsOptional()
+  @Field(() => CategoryListRelationFilter, {
+    nullable: true,
+  })
+  categories?: CategoryListRelationFilter;
+
   @ApiProperty({
     required: false,
     type: StringNullableFilter,
@@ -66,15 +80,27 @@ class ProductWhereInput {
 
   @ApiProperty({
     required: false,
-    type: () => OrderListRelationFilter,
+    type: () => FactureListRelationFilter,
   })
   @ValidateNested()
-  @Type(() => OrderListRelationFilter)
+  @Type(() => FactureListRelationFilter)
   @IsOptional()
-  @Field(() => OrderListRelationFilter, {
+  @Field(() => FactureListRelationFilter, {
     nullable: true,
   })
-  orders?: OrderListRelationFilter;
+  orders?: FactureListRelationFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => UserListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => UserListRelationFilter)
+  @IsOptional()
+  @Field(() => UserListRelationFilter, {
+    nullable: true,
+  })
+  users?: UserListRelationFilter;
 }
 
 export { ProductWhereInput as ProductWhereInput };

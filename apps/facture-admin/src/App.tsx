@@ -9,10 +9,10 @@ import { UserList } from "./user/UserList";
 import { UserCreate } from "./user/UserCreate";
 import { UserEdit } from "./user/UserEdit";
 import { UserShow } from "./user/UserShow";
-import { OrderList } from "./order/OrderList";
-import { OrderCreate } from "./order/OrderCreate";
-import { OrderEdit } from "./order/OrderEdit";
-import { OrderShow } from "./order/OrderShow";
+import { FactureList } from "./facture/FactureList";
+import { FactureCreate } from "./facture/FactureCreate";
+import { FactureEdit } from "./facture/FactureEdit";
+import { FactureShow } from "./facture/FactureShow";
 import { CustomerList } from "./customer/CustomerList";
 import { CustomerCreate } from "./customer/CustomerCreate";
 import { CustomerEdit } from "./customer/CustomerEdit";
@@ -25,6 +25,14 @@ import { ProductList } from "./product/ProductList";
 import { ProductCreate } from "./product/ProductCreate";
 import { ProductEdit } from "./product/ProductEdit";
 import { ProductShow } from "./product/ProductShow";
+import { CategoryList } from "./category/CategoryList";
+import { CategoryCreate } from "./category/CategoryCreate";
+import { CategoryEdit } from "./category/CategoryEdit";
+import { CategoryShow } from "./category/CategoryShow";
+import { CompanyList } from "./company/CompanyList";
+import { CompanyCreate } from "./company/CompanyCreate";
+import { CompanyEdit } from "./company/CompanyEdit";
+import { CompanyShow } from "./company/CompanyShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -59,11 +67,11 @@ const App = (): React.ReactElement => {
           show={UserShow}
         />
         <Resource
-          name="Order"
-          list={OrderList}
-          edit={OrderEdit}
-          create={OrderCreate}
-          show={OrderShow}
+          name="Facture"
+          list={FactureList}
+          edit={FactureEdit}
+          create={FactureCreate}
+          show={FactureShow}
         />
         <Resource
           name="Customer"
@@ -85,6 +93,20 @@ const App = (): React.ReactElement => {
           edit={ProductEdit}
           create={ProductCreate}
           show={ProductShow}
+        />
+        <Resource
+          name="Category"
+          list={CategoryList}
+          edit={CategoryEdit}
+          create={CategoryCreate}
+          show={CategoryShow}
+        />
+        <Resource
+          name="Company"
+          list={CompanyList}
+          edit={CompanyEdit}
+          create={CompanyCreate}
+          show={CompanyShow}
         />
       </Admin>
     </div>

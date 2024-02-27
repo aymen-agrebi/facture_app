@@ -26,6 +26,14 @@ import { UserFindUniqueArgs } from "./UserFindUniqueArgs";
 import { CreateUserArgs } from "./CreateUserArgs";
 import { UpdateUserArgs } from "./UpdateUserArgs";
 import { DeleteUserArgs } from "./DeleteUserArgs";
+import { CategoryFindManyArgs } from "../../category/base/CategoryFindManyArgs";
+import { Category } from "../../category/base/Category";
+import { CompanyFindManyArgs } from "../../company/base/CompanyFindManyArgs";
+import { Company } from "../../company/base/Company";
+import { FactureFindManyArgs } from "../../facture/base/FactureFindManyArgs";
+import { Facture } from "../../facture/base/Facture";
+import { ProductFindManyArgs } from "../../product/base/ProductFindManyArgs";
+import { Product } from "../../product/base/Product";
 import { UserService } from "../user.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => User)
@@ -130,5 +138,85 @@ export class UserResolverBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [Category], { name: "category" })
+  @nestAccessControl.UseRoles({
+    resource: "Category",
+    action: "read",
+    possession: "any",
+  })
+  async findCategory(
+    @graphql.Parent() parent: User,
+    @graphql.Args() args: CategoryFindManyArgs
+  ): Promise<Category[]> {
+    const results = await this.service.findCategory(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [Company], { name: "company" })
+  @nestAccessControl.UseRoles({
+    resource: "Company",
+    action: "read",
+    possession: "any",
+  })
+  async findCompany(
+    @graphql.Parent() parent: User,
+    @graphql.Args() args: CompanyFindManyArgs
+  ): Promise<Company[]> {
+    const results = await this.service.findCompany(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [Facture], { name: "factures" })
+  @nestAccessControl.UseRoles({
+    resource: "Facture",
+    action: "read",
+    possession: "any",
+  })
+  async findFactures(
+    @graphql.Parent() parent: User,
+    @graphql.Args() args: FactureFindManyArgs
+  ): Promise<Facture[]> {
+    const results = await this.service.findFactures(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [Product], { name: "product" })
+  @nestAccessControl.UseRoles({
+    resource: "Product",
+    action: "read",
+    possession: "any",
+  })
+  async findProduct(
+    @graphql.Parent() parent: User,
+    @graphql.Args() args: ProductFindManyArgs
+  ): Promise<Product[]> {
+    const results = await this.service.findProduct(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 }

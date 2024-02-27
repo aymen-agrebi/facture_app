@@ -14,7 +14,6 @@ import { PrismaService } from "../../prisma/prisma.service";
 import {
   Prisma,
   Customer, // @ts-ignore
-  Order, // @ts-ignore
   Address,
 } from "@prisma/client";
 
@@ -51,17 +50,6 @@ export class CustomerServiceBase {
     args: Prisma.SelectSubset<T, Prisma.CustomerDeleteArgs>
   ): Promise<Customer> {
     return this.prisma.customer.delete(args);
-  }
-
-  async findOrders(
-    parentId: string,
-    args: Prisma.OrderFindManyArgs
-  ): Promise<Order[]> {
-    return this.prisma.customer
-      .findUniqueOrThrow({
-        where: { id: parentId },
-      })
-      .orders(args);
   }
 
   async getAddress(parentId: string): Promise<Address | null> {

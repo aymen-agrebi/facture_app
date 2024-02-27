@@ -11,17 +11,31 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
+import { CategoryUpdateManyWithoutProductsInput } from "./CategoryUpdateManyWithoutProductsInput";
 import {
-  IsString,
-  IsOptional,
-  IsNumber,
   ValidateNested,
+  IsOptional,
+  IsString,
+  IsNumber,
 } from "class-validator";
-import { OrderUpdateManyWithoutProductsInput } from "./OrderUpdateManyWithoutProductsInput";
 import { Type } from "class-transformer";
+import { FactureUpdateManyWithoutProductsInput } from "./FactureUpdateManyWithoutProductsInput";
+import { UserUpdateManyWithoutProductsInput } from "./UserUpdateManyWithoutProductsInput";
 
 @InputType()
 class ProductUpdateInput {
+  @ApiProperty({
+    required: false,
+    type: () => CategoryUpdateManyWithoutProductsInput,
+  })
+  @ValidateNested()
+  @Type(() => CategoryUpdateManyWithoutProductsInput)
+  @IsOptional()
+  @Field(() => CategoryUpdateManyWithoutProductsInput, {
+    nullable: true,
+  })
+  categories?: CategoryUpdateManyWithoutProductsInput;
+
   @ApiProperty({
     required: false,
     type: String,
@@ -57,15 +71,27 @@ class ProductUpdateInput {
 
   @ApiProperty({
     required: false,
-    type: () => OrderUpdateManyWithoutProductsInput,
+    type: () => FactureUpdateManyWithoutProductsInput,
   })
   @ValidateNested()
-  @Type(() => OrderUpdateManyWithoutProductsInput)
+  @Type(() => FactureUpdateManyWithoutProductsInput)
   @IsOptional()
-  @Field(() => OrderUpdateManyWithoutProductsInput, {
+  @Field(() => FactureUpdateManyWithoutProductsInput, {
     nullable: true,
   })
-  orders?: OrderUpdateManyWithoutProductsInput;
+  orders?: FactureUpdateManyWithoutProductsInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => UserUpdateManyWithoutProductsInput,
+  })
+  @ValidateNested()
+  @Type(() => UserUpdateManyWithoutProductsInput)
+  @IsOptional()
+  @Field(() => UserUpdateManyWithoutProductsInput, {
+    nullable: true,
+  })
+  users?: UserUpdateManyWithoutProductsInput;
 }
 
 export { ProductUpdateInput as ProductUpdateInput };
